@@ -1,0 +1,43 @@
+generated: '2026-07-21'
+method: searched
+source: live probe of /.well-known/ on seezo.io + app.seezo.io
+notes: >-
+  seezo.io is served by Framer, which returns an HTML 200 for every path
+  (including /.well-known/security.txt, /.well-known/pgp-key.txt, /llms.txt),
+  so those are NOT machine-readable documents and are not indexed as 200 here.
+  The one genuine machine-readable discovery document is the OAuth 2.0
+  Authorization Server metadata (RFC 8414) served as application/json by the
+  app host.
+hosts:
+- host: https://app.seezo.io
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: seezo-oauth-authorization-server.json
+  - path: /.well-known/openid-configuration
+    status: 400
+  - path: /.well-known/security.txt
+    status: 302
+  - path: /.well-known/api-catalog
+    status: 302
+  - path: /.well-known/ai-plugin.json
+    status: 302
+- host: https://seezo.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/html
+    note: Framer HTML page (human-readable), not RFC 9116 machine-readable text
+  - path: /.well-known/pgp-key.txt
+    status: 200
+    content_type: text/html
+    note: Framer HTML catch-all, not a raw PGP key file
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
